@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ClientesService } from 'src/app/clientes.service';
 import { Cliente } from '../cliente';
 
 @Component({
@@ -9,16 +10,26 @@ import { Cliente } from '../cliente';
 export class ClientesFormComponent implements OnInit {
 
   cliente: Cliente;
+  success: boolean = false;
+  errors: any;
 
-  constructor() { 
+  constructor(private service: ClientesService) {
     this.cliente = new Cliente();
+    //   this.cliente = service.getCliente();
   }
 
   ngOnInit(): void {
   }
 
-  onSubmit(){
-    console.log(this.cliente);
+  onSubmit() {
+    this.service
+      .salvar(this.cliente)
+      .subscribe(response => {
+        this.success = true;
+      }, erroResponse => {
+        //this.errors. erroResponse.errors.erro; // verificar o porque do indefinido
+        
+      }
+      )
   }
-
 }
