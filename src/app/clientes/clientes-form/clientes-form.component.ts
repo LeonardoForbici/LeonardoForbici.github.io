@@ -11,11 +11,10 @@ export class ClientesFormComponent implements OnInit {
 
   cliente: Cliente;
   success: boolean = false;
-  errors: any;
+  errors: String[];
 
   constructor(private service: ClientesService) {
     this.cliente = new Cliente();
-    //   this.cliente = service.getCliente();
   }
 
   ngOnInit(): void {
@@ -26,10 +25,13 @@ export class ClientesFormComponent implements OnInit {
       .salvar(this.cliente)
       .subscribe(response => {
         this.success = true;
-      }, erroResponse => {
-        //this.errors. erroResponse.errors.erro; // verificar o porque do indefinido
-        
+        this.errors = null;
+        this.cliente = response;
+        console.log(response);
+      }, errorResponse => {
+        this.success = false;
+        this.errors = errorResponse.error.erros;
       }
-      )
+      );
   }
 }
