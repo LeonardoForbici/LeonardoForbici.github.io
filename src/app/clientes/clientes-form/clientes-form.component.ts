@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { ClientesService } from 'src/app/clientes.service';
 import { Cliente } from '../cliente';
 
@@ -13,29 +14,60 @@ export class ClientesFormComponent implements OnInit {
   cliente: Cliente;
   success: boolean = false;
   errors: String[];
+  id: number;
 
-  constructor(private service: ClientesService, private router:Router) {
+  constructor(
+    private service: ClientesService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute) {
     this.cliente = new Cliente();
   }
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe(params => {
+      if (params && params.id) {
+        this.service.getClienteById(params.id).subscribe(response => {
+          this.cliente = response,
+            this.id = params.id,
+            errorResponse => this.cliente = new Cliente();
+        });
+      }
+    });
+
   }
 
   onSubmit() {
-    this.service
-      .salvar(this.cliente)
+    if (this.id) {
+      this.service
+      .atualizar(this.cliente)
       .subscribe(response => {
         this.success = true;
         this.errors = null;
-        this.cliente = response;
-        console.log(response);
       }, errorResponse => {
         this.success = false;
-        this.errors = errorResponse.error.erros;
+        this.errors = ['DEU MERDA'];
       }
       );
+ 
+
+      
+    } else {
+      this.service
+        .salvar(this.cliente)
+        .subscribe(response => {
+          this.success = true;
+          this.errors = null;
+          this.cliente = response;
+        }, errorResponse => {
+          this.success = false;
+          this.errors = errorResponse.error.erros;
+        }
+        );
+    }
   }
-  voltarParaListagem(){
+
+  voltarParaListagem() {
     this.router.navigate(['/clientes-list']);
   }
 }
+

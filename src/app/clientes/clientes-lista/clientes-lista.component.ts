@@ -16,10 +16,9 @@ export class ClientesListaComponent implements OnInit {
 
   ngOnInit(): void {
     this.service.getClientes().subscribe(resposta => this.clientes = resposta);
-    console.log(this.clientes);
   }
 
-  novoCadastro(){
+  novoCadastro() {
     this.router.navigate(['/clientes-form']);
   }
 
