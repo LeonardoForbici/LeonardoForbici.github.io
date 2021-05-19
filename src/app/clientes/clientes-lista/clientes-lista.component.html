@@ -3,6 +3,18 @@
     <li class="breadcrumb-item active">Consulta</li>
 </ol>
 <div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+           <div class="alert alert-success" role="alert" *ngIf="mensagemSucesso">
+              {{mensagemSucesso}}
+           </div>
+           <div class="alert alert-danger" role="alert" *ngFor="mensagemErro">
+              {{ mensagemErro }}
+           </div>
+        </div>
+     </div>
+
     <div class="row">
         <div class="col-md-2">
             <button class="btn btn-warning" (click)="novoCadastro()">
@@ -35,7 +47,8 @@
                                 <i class="fa fa-pen-square"></i>
                             </button>
 
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                data-target="#modalDelecao" (click)="preparaDelecao(cliente)">
                                 <i class="fa fa-trash"></i>
                             </button>
                         </td>
@@ -44,18 +57,19 @@
             </table>
         </div>
     </div>
-    <div class="modal" id="myModal">
+    <div class="modal" id="modalDelecao">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Deletar</h4>
+                    <h4 class="modal-title">Confirmar</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <div class="modal-body">
-                    Modal body..
+                <div class="modal-body" *ngIf="clienteSelecionado">
+                  Confirma a deleção do(a) cliente: {{clienteSelecionado.nome}} ?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" (click)="deletarCliente()">Confirma</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
         </div>
