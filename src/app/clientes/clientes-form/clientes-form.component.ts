@@ -45,7 +45,7 @@ export class ClientesFormComponent implements OnInit {
         this.errors = null;
       }, errorResponse => {
         this.success = false;
-        this.errors = ['DEU MERDA'];
+        this.errors = errorResponse;
       }
       );
  
