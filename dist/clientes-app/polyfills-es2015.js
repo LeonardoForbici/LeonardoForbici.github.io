@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\forbi\Documents\fontes\frontend\clientes-app\src\polyfills.ts */"hN/g");
+module.exports = __webpack_require__(/*! D:\Dev\fontes\clientes-app\src\polyfills.ts */"hN/g");
 
 
 /***/ }),

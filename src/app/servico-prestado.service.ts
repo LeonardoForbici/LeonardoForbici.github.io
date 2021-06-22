@@ -12,7 +12,7 @@ export class ServicoPrestadoService {
 
   constructor(private http: HttpClient) { }
 
-  apiUrl: string = environment.apiUrlBase + 'api/servicos-prestados';
+  apiUrl: string = environment.apiUrlBase + '/api/servicos-prestados';
 
   salvar(servicoPrestado: ServicoPrestado) : Observable<ServicoPrestado>{
     return this.http.post<ServicoPrestado>(this.apiUrl, servicoPrestado);
