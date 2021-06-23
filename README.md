@@ -1,3 +1,10 @@
+# vendas
+
+crud utilizando spring boot/Angular para estudos...
+
+link para aplicação angular : https://github.com/LeonardoForbici/vendas
+
+
 # ClientesApp
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.1.
