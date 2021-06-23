@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Usuario } from './login/usuario';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,32 @@ export class AuthService {
   tokenURL: string = environment.apiUrlBase + environment.obterTokenUrl;
   clientId: string = environment.clientId;
   clientSecret: string = environment.clientSecret;
+  jwtHelper: JwtHelperService = new JwtHelperService();
 
   constructor(private http: HttpClient) { }
+
+  obterToken() {
+    const tokenString = localStorage.getItem('access_token');
+    if (tokenString) {
+      const token = JSON.parse(tokenString).access_token
+      return token;
+    }
+    return null;
+  }
+
+  encerrarSessao(){
+    localStorage.removeItem('access_token');
+  }
+
+  getUsuarioAutenticado(){
+    const token = this.obterToken();
+    if(token){
+      const usuario = this.jwtHelper.decodeToken(token).user_name;
+      console.log(usuario);
+      return usuario;
+    }
+    return null;
+  }
 
   salvar(usuario: Usuario): Observable<any> {
     return this.http.post<any>(this.apiUrl, usuario)
@@ -28,8 +53,16 @@ export class AuthService {
       'Authorization': 'Basic ' + btoa(`${this.clientId}:${this.clientSecret}`),
       'Content-Type': 'application/x-www-form-urlencoded'
     }
-    console.log(params);
     return this.http.post(this.tokenURL, params.toString(), { headers })
+  }
+
+  isAuthenticated(): boolean {
+    const token = this.obterToken();
+    if (token) {
+      const expired = this.jwtHelper.isTokenExpired(token);
+      return !expired;
+    }
+    return false;
   }
 
 }
