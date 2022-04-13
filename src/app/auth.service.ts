@@ -35,7 +35,6 @@ export class AuthService {
     const token = this.obterToken();
     if(token){
       const usuario = this.jwtHelper.decodeToken(token).user_name;
-      console.log(usuario);
       return usuario;
     }
     return null;
