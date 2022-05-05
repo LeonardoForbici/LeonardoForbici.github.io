@@ -52,6 +52,7 @@ export class LoginComponent {
     }, errorResponse => {
       this.mensagemSucesso = null;
       this.errors = errorResponse.error.erros;
+      console.log(errorResponse)
     });
   }
 
